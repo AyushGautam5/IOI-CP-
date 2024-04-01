@@ -1,0 +1,108 @@
+/*QUESTION-5
+Given a sorted array. Write functions using binary search to calculate following things:
+
+. lower_bound(x) : index of first element which is greater or equal to x in the given array
+. upper_bound(x): index of first element which is greater than x in the given array
+. is_present(x): return true if x is present in the array else return false
+*/
+
+/*
+For example: 
+Input:------------------------ 
+arr = {1, 2, 4, 4, 5, 6}
+key = 4
+
+Output:--------------------------
+lowerbound = 2
+upperbound = 4
+ispresent = True
+
+
+*/
+
+#include <iostream>
+#include <vector>
+
+int lowerBound(const std::vector<int>& arr, int x) {
+    int low = 0, high = arr.size() - 1;
+    int result = -1;
+
+    while (low <= high) {
+        int mid = low + (high - low) / 2;
+
+        if (arr[mid] >= x) {
+            result = mid;
+            high = mid - 1;
+        } else {
+            low = mid + 1;
+        }
+    }
+
+    return result;
+}
+
+int upperBound(const std::vector<int>& arr, int x) {
+    int low = 0, high = arr.size() - 1;
+    int result = -1;
+
+    while (low <= high) {
+        int mid = low + (high - low) / 2;
+
+        if (arr[mid] > x) {
+            result = mid;
+            high = mid - 1;
+        } else {
+            low = mid + 1;
+        }
+    }
+
+    return result;
+}
+
+bool isPresent(const std::vector<int>& arr, int x) {
+    int low = 0, high = arr.size() - 1;
+
+    while (low <= high) {
+        int mid = low + (high - low) / 2;
+
+        if (arr[mid] == x) {
+            return true;
+        } else if (arr[mid] < x) {
+            low = mid + 1;
+        } else {
+            high = mid - 1;
+        }
+    }
+
+    return false;
+}
+
+int main() {
+    int n;
+    
+    std::cout << "Enter the size of the array: ";
+    std::cin >> n;
+    
+    std::cout << "Enter the sorted elements of the array: ";
+    std::vector<int> arr(n);
+    for (int i = 0; i < n; ++i) {
+        std::cin >> arr[i];
+    }
+    
+    int key;
+    
+    std::cout << "Enter the key to search: ";
+    std::cin >> key;
+
+    int lowerbound = lowerBound(arr, key);
+
+    int upperbound = upperBound(arr, key);
+
+    bool ispresent = isPresent(arr, key);
+
+    std::cout << "Lower bound = " << lowerbound << std::endl;
+    std::cout << "Upper bound = " << upperbound << std::endl;
+    std::cout << "Is present = " << (ispresent ? "True" : "False") << std::endl;
+
+    return 0;
+}
